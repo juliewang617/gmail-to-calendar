@@ -1,5 +1,5 @@
 require("dotenv").config({ path: "../.env" });
-console.log("HI", process.cwd());
+//console.log("HI", process.cwd());
 //console.log(process.env);
 
 const express = require("express");
@@ -27,10 +27,38 @@ app.get("/", async (req, res) => {
 
     // calendarHandler.createCalendarEvent(auth, cleanedEvents[0]);
 
-    res.json(cleanedEvents); // Send emails as JSON response
+    res.json(cleanedEvents); // Send event suggestions as a JSON response
   } catch (error) {
     res.status(500).json({
       error: "Error fetching or parsing emails",
+      details: error.message,
+    });
+  }
+});
+
+/* Route to add an event to the Google Calendar */
+app.post("/add-event", async (req, res) => {
+  try {
+    const auth = await googleAuthorize.authorize(); // Get authorized client
+
+    const { summary, location, description, start, end } = req.body;
+
+    calendarHandler.createCalendarEvent(auth, {
+      summary,
+      location,
+      description,
+      start,
+      end,
+    });
+
+    res.status(200).json({
+      message: "Event added successfully",
+      eventId: response.data.id, // Return the ID of the newly created event
+    });
+  } catch (error) {
+    console.error("Error adding event:", error);
+    res.status(500).json({
+      error: "An error occurred while adding the event",
       details: error.message,
     });
   }
