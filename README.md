@@ -1,3 +1,5 @@
+frontend in progress
+
 As a busy college student, my inbox is flooded daily with club events, meetings, talks, conferences, and more. Searching through emails and adding each event to my calendar I’m interested takes a long time — so I thought, what if I could automate this process?
 
 The EmailToCalendar Bot just does this: it searches your recent emails for possible events, suggests them to you through a simple UI, and with a click of a button, they’ll be added to your calendar.
